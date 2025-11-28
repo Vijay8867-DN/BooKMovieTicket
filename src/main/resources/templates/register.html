@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book My Ticket - Register</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+        .card {
+            border-radius: 15px;
+        }
+        .btn-custom {
+            background-color: #ffc107;
+            color: black;
+            font-weight: 600;
+        }
+        .btn-custom:hover {
+            background-color: #e0a800;
+            color: black;
+        }
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        .input-field {
+            padding-left: 36px;
+        }
+        .position-relative {
+            position: relative;
+        }
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1080;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark p-3">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-film"></i> BookMyTicket
+        </a>
+    </div>
+</nav>
+
+<!-- Register Card -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="card shadow p-4" style="width: 450px;">
+
+        <h2 class="text-center mb-4 fw-bold">Create Account</h2>
+
+        <form action="/register" method="post" th:object="${userDto}">
+
+            <!-- Name -->
+            <div class="mb-3 position-relative">
+                <i class="bi bi-person input-icon"></i>
+                <input type="text" class="form-control input-field" th:field="*{name}" placeholder="Name">
+                <div class="text-danger small" th:errors="*{name}"></div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3 position-relative">
+                <i class="bi bi-envelope input-icon"></i>
+                <input type="email" class="form-control input-field" th:field="*{email}" placeholder="Email">
+                <div class="text-danger small" th:errors="*{email}"></div>
+            </div>
+
+            <!-- Mobile -->
+            <div class="mb-3 position-relative">
+                <i class="bi bi-phone input-icon"></i>
+                <input type="number" class="form-control input-field" th:field="*{mobile}" placeholder="Mobile">
+                <div class="text-danger small" th:errors="*{mobile}"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3 position-relative">
+                <i class="bi bi-lock input-icon"></i>
+                <input type="password" class="form-control input-field" th:field="*{password}" placeholder="Password">
+                <div class="text-danger small" th:errors="*{password}"></div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3 position-relative">
+                <i class="bi bi-lock-fill input-icon"></i>
+                <input type="password" class="form-control input-field" th:field="*{confirmPassword}" placeholder="Confirm Password">
+                <div class="text-danger small" th:errors="*{confirmPassword}"></div>
+            </div>
+
+            <!-- Terms -->
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" th:field="*{terms}">
+                <label class="form-check-label">I accept the terms and conditions</label>
+                <div class="text-danger small" th:errors="*{terms}"></div>
+            </div>
+
+            <!-- Register Button -->
+            <button class="btn btn-custom w-100 py-2">
+                <i class="bi bi-person-plus"></i> Register
+            </button>
+
+        </form>
+
+        <p class="text-center mt-3">
+            Already have an account?
+            <a href="/login" class="text-decoration-none fw-semibold">Login</a>
+        </p>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container">
+    <!-- Success Toast -->
+    <div id="registerToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="bi bi-check-circle-fill me-2"></i><span th:text="${pass}"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <!-- Failure Toast -->
+    <div id="failToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="bi bi-x-circle-fill me-2"></i><span th:text="${fail}"></span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+      const successText = document.querySelector('#registerToast .toast-body span').textContent.trim();
+      const failText = document.querySelector('#failToast .toast-body span').textContent.trim();
+
+      if (successText !== '') {
+          new bootstrap.Toast(document.getElementById('registerToast')).show();
+      }
+      if (failText !== '') {
+          new bootstrap.Toast(document.getElementById('failToast')).show();
+      }
+  });
+</script>
+
+</body>
+</html>

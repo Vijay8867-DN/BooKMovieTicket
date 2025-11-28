@@ -1,10 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Book Movie Ticket</title>
+    <meta charset="UTF-8">
+    <title>Book Movie Ticket</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #141E30, #243B55);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+        .btn-custom {
+            background-color: #ffc107;
+            color: black;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+        .btn-custom:hover {
+            background-color: #e0a800;
+            color: black;
+        }
+        .message-box {
+            background: rgba(0,0,0,0.06);
+            border-radius: 10px;
+            padding: 15px;
+        }
+    </style>
 </head>
+
 <body>
-<h1>Book Movie Ticket</h1>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/">
+            <i class="bi bi-film"></i> BookMyTicket
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">
+                        <i class="bi bi-house"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${session.user != null}">
+                    <a class="nav-link" href="/movies">
+                        <i class="bi bi-camera-reels"></i> Movies
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="btn btn-custom ms-2" href="/login">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="btn btn-custom ms-2" href="/register">
+                        <i class="bi bi-person-plus"></i> Register
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${session.user != null}">
+                    <a class="nav-link text-danger" href="/logout">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1 class="hero-title"><i class="bi bi-film"></i> Book Movie Tickets Easily</h1>
+    <p class="hero-subtitle">Fast • Simple • Secure — Your best movie booking experience</p>
+</div>
+
+<!-- Message Display -->
+<div class="container mt-4" th:if="${pass!=null || fail!=null}">
+    <div class="message-box text-center">
+        <h5 class="text-success" th:text="${pass}" th:if="${pass!=null}"></h5>
+        <h5 class="text-danger" th:text="${fail}" th:if="${fail!=null}"></h5>
+    </div>
+</div>
+
+<!-- Content Example (You can add movie listings here later) -->
+<div class="container py-5 text-center">
+    <h2 class="fw-bold mb-3">Welcome to BookMyTicket</h2>
+    <p class="text-muted">Browse movies, choose your seats, and enjoy your show!</p>
+
+    <a href="/movies" th:if="${session.user != null}" class="btn btn-custom btn-lg mt-3">
+        <i class="bi bi-camera-reels"></i> View Movies
+    </a>
+
+    <a href="/login" th:if="${session.user == null}" class="btn btn-custom btn-lg mt-3">
+        <i class="bi bi-box-arrow-in-right"></i> Login to Book Tickets
+    </a>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
