@@ -1,165 +1,306 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Book My Ticket - Register</title>
+<meta charset="UTF-8">
+<title>Book My Ticket - Register</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	rel="stylesheet">
 
-    <style>
-        body {
-            background: #f4f6f9;
-        }
-        .card {
-            border-radius: 15px;
-        }
-        .btn-custom {
-            background-color: #ffc107;
-            color: black;
-            font-weight: 600;
-        }
-        .btn-custom:hover {
-            background-color: #e0a800;
-            color: black;
-        }
-        .input-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-        }
-        .input-field {
-            padding-left: 36px;
-        }
-        .position-relative {
-            position: relative;
-        }
-        .toast-container {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1080;
-        }
-    </style>
+<style>
+body {
+	font-family: 'Poppins', sans-serif;
+	background:
+		url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1500&q=80')
+		center/cover no-repeat fixed;
+	backdrop-filter: blur(5px);
+}
+
+/* Dark overlay */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	z-index: -1;
+}
+
+/* NAVBAR */
+.navbar {
+	background: rgba(0, 0, 0, 0.85) !important;
+	backdrop-filter: blur(6px);
+}
+
+.navbar-brand {
+	font-weight: 600;
+	font-size: 1.6rem;
+}
+
+/* REGISTER BOX */
+.register-box {
+	width: 100%;
+	max-width: 480px;
+	margin-top: 60px;
+	padding: 38px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 15px;
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
+	color: #fff;
+}
+
+.register-box h3 {
+	color: #fff;
+}
+
+/* INPUTS */
+.form-control {
+	background: rgba(255, 255, 255, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	color: #fff;
+	padding: 10px 14px;
+}
+
+.form-control:focus {
+	background: rgba(255, 255, 255, 0.25);
+	border-color: #ff884d;
+	box-shadow: 0 0 0 0.15rem rgba(255, 136, 77, 0.35);
+	color: #fff;
+}
+
+/* LABELS */
+.form-label {
+	color: #eaeaea;
+	font-weight: 500;
+}
+
+/* ERROR TEXT */
+.error-text {
+	font-size: 0.85rem;
+	color: #ffadad;
+}
+
+/* BUTTON */
+.btn-primary {
+	background: linear-gradient(45deg, #ff4d4d, #ff884d);
+	border: none;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(45deg, #ff3333, #ff6600);
+}
+
+/* TERMS CHECKBOX */
+.form-check-label {
+	color: #e4e4e4;
+}
+
+/* Toastify-style Toasts */
+.toastify-container {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 99999;
+}
+
+.toastify {
+	min-width: 280px;
+	border-radius: 8px;
+	padding: 14px 18px;
+	color: white;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	opacity: 0;
+	transform: translateX(120%);
+	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
+	position: relative;
+	overflow: hidden;
+}
+
+.toastify.success {
+	background: #2ecc71;
+}
+
+.toastify.error {
+	background: #e74c3c;
+}
+
+@keyframes slideIn {to { opacity:1;
+	transform: translateX(0);
+}
+
+}
+@keyframes fadeOut {to { opacity:0;
+	transform: translateX(120%);
+}
+
+}
+.toastify::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.7);
+	animation: progressBar 3s linear forwards;
+}
+
+@keyframes progressBar {from { width:100%;
+	
+}
+
+to {
+	width: 0%;
+}
+
+}
+
+/* Links */
+a {
+	color: #ff884d;
+}
+
+a:hover {
+	color: #ff4d4d;
+}
+</style>
+
 </head>
 
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark p-3">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="/">
-            <i class="bi bi-film"></i> BookMyTicket
-        </a>
-    </div>
-</nav>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-4">
+		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
 
-<!-- Register Card -->
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
-    <div class="card shadow p-4" style="width: 450px;">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-        <h2 class="text-center mb-4 fw-bold">Create Account</h2>
+		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
 
-        <form action="/register" method="post" th:object="${userDto}">
+			<!-- NOT LOGGED IN -->
+			<div th:if="${session.user == null}">
+				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
+					href="/register" class="btn btn-warning">Register</a>
+			</div>
 
-            <!-- Name -->
-            <div class="mb-3 position-relative">
-                <i class="bi bi-person input-icon"></i>
-                <input type="text" class="form-control input-field" th:field="*{name}" placeholder="Name">
-                <div class="text-danger small" th:errors="*{name}"></div>
-            </div>
+			<!-- LOGGED IN -->
+			<div th:if="${session.user != null}"
+				class="d-flex align-items-center">
+				<span class="text-white me-3"
+					th:text="'Hello, ' + ${session.user.name}"></span> <a
+					href="/logout" class="btn btn-danger">Logout</a>
+			</div>
 
-            <!-- Email -->
-            <div class="mb-3 position-relative">
-                <i class="bi bi-envelope input-icon"></i>
-                <input type="email" class="form-control input-field" th:field="*{email}" placeholder="Email">
-                <div class="text-danger small" th:errors="*{email}"></div>
-            </div>
+		</div>
+	</nav>
 
-            <!-- Mobile -->
-            <div class="mb-3 position-relative">
-                <i class="bi bi-phone input-icon"></i>
-                <input type="number" class="form-control input-field" th:field="*{mobile}" placeholder="Mobile">
-                <div class="text-danger small" th:errors="*{mobile}"></div>
-            </div>
 
-            <!-- Password -->
-            <div class="mb-3 position-relative">
-                <i class="bi bi-lock input-icon"></i>
-                <input type="password" class="form-control input-field" th:field="*{password}" placeholder="Password">
-                <div class="text-danger small" th:errors="*{password}"></div>
-            </div>
+	<!-- TOASTIFY TOASTS -->
+	<div class="toastify-container">
 
-            <!-- Confirm Password -->
-            <div class="mb-3 position-relative">
-                <i class="bi bi-lock-fill input-icon"></i>
-                <input type="password" class="form-control input-field" th:field="*{confirmPassword}" placeholder="Confirm Password">
-                <div class="text-danger small" th:errors="*{confirmPassword}"></div>
-            </div>
+		<!-- SUCCESS -->
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
+		</div>
 
-            <!-- Terms -->
-            <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" th:field="*{terms}">
-                <label class="form-check-label">I accept the terms and conditions</label>
-                <div class="text-danger small" th:errors="*{terms}"></div>
-            </div>
+		<!-- ERROR -->
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
+		</div>
 
-            <!-- Register Button -->
-            <button class="btn btn-custom w-100 py-2">
-                <i class="bi bi-person-plus"></i> Register
-            </button>
+	</div>
 
-        </form>
 
-        <p class="text-center mt-3">
-            Already have an account?
-            <a href="/login" class="text-decoration-none fw-semibold">Login</a>
-        </p>
-    </div>
-</div>
+	<!-- REGISTER FORM -->
+	<div class="container d-flex justify-content-center">
+		<div class="register-box">
 
-<!-- Toast Container -->
-<div class="toast-container">
-    <!-- Success Toast -->
-    <div id="registerToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                <i class="bi bi-check-circle-fill me-2"></i><span th:text="${pass}"></span>
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
+			<h3 class="text-center mb-4 fw-bold">Create Account</h3>
 
-    <!-- Failure Toast -->
-    <div id="failToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                <i class="bi bi-x-circle-fill me-2"></i><span th:text="${fail}"></span>
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
+			<form action="/register" method="post" th:object="${userDto}">
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  window.addEventListener('DOMContentLoaded', () => {
-      const successText = document.querySelector('#registerToast .toast-body span').textContent.trim();
-      const failText = document.querySelector('#failToast .toast-body span').textContent.trim();
+				<!-- NAME -->
+				<div class="mb-3">
+					<label class="form-label">Name</label> <input type="text"
+						class="form-control" th:field="*{name}"> <span
+						class="error-text" th:errors="*{name}"></span>
+				</div>
 
-      if (successText !== '') {
-          new bootstrap.Toast(document.getElementById('registerToast')).show();
-      }
-      if (failText !== '') {
-          new bootstrap.Toast(document.getElementById('failToast')).show();
-      }
-  });
+				<!-- EMAIL -->
+				<div class="mb-3">
+					<label class="form-label">Email</label> <input type="email"
+						class="form-control" th:field="*{email}"> <span
+						class="error-text" th:errors="*{email}"></span>
+				</div>
+
+				<!-- MOBILE -->
+				<div class="mb-3">
+					<label class="form-label">Mobile</label> <input type="number"
+						class="form-control" th:field="*{mobile}" > <span
+						class="error-text" th:errors="*{mobile}"></span>
+				</div>
+
+				<!-- PASSWORD -->
+				<div class="mb-3">
+					<label class="form-label">Password</label> <input type="password"
+						class="form-control" th:field="*{password}"> <span
+						class="error-text" th:errors="*{password}"></span>
+				</div>
+
+				<!-- CONFIRM PASSWORD -->
+				<div class="mb-3">
+					<label class="form-label">Confirm Password</label> <input
+						type="password" class="form-control" th:field="*{confirmPassword}">
+					<span class="error-text" th:errors="*{confirmPassword}"></span>
+				</div>
+
+				<!-- TERMS -->
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="checkbox" th:field="*{terms}">
+					<label class="form-check-label"> I accept the terms &
+						conditions </label> <br> <span class="error-text"
+						th:errors="*{terms}"></span>
+				</div>
+
+				<button class="btn btn-primary w-100 py-2">Register</button>
+
+				<div class="text-center mt-3">
+					<small> Already have an account? <a href="/login"
+						class="text-decoration-none">Login</a>
+					</small>
+				</div>
+
+			</form>
+
+		</div>
+	</div>
+
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.toastify').forEach(toast => {
+        setTimeout(() => toast.remove(), 3500);
+    });
+});
 </script>
 
 </body>
