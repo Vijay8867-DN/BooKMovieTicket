@@ -1,6 +1,7 @@
 package com.vijay.book_movie_ticket1.repository;
 
 import java.security.SecureRandom;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -60,6 +61,10 @@ public class UserServiceImpl implements UserService {
 			return "redirect:/login";
 		} else {
 			if (AES.decrypt(user.getPassword()).equals(dto.getPassword())) {
+				if(user.isBlocked()) {
+					attributes.addFlashAttribute("fail", "Account Blocked!, Contact Admin");
+					return "redirect:/login";
+				}
 				session.setAttribute("user", user);
 				attributes.addFlashAttribute("pass", "Login Success");
 				return "redirect:/main";
@@ -92,7 +97,7 @@ public class UserServiceImpl implements UserService {
 			} else {
 				if (otp == exOtp) {
 					User user = new User(null, dto.getName(), dto.getEmail(), dto.getMobile(),
-							AES.encrypt(dto.getPassword()), "USER");
+					AES.encrypt(dto.getPassword()), "USER", false);
 					userRepository.save(user);
 					attributes.addFlashAttribute("pass", "Account Registered Success");
 					return "redirect:/main";
@@ -139,11 +144,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String resetPassword(PasswordDto passwordDto, BindingResult result, RedirectAttributes attributes,ModelMap map) {
+	public String resetPassword(PasswordDto passwordDto, BindingResult result, RedirectAttributes attributes,
+			ModelMap map) {
 		if (result.hasErrors()) {
 			map.put("email", passwordDto.getEmail());
 			return "reset-password.html";
-		}User user = userRepository.findByEmail(passwordDto.getEmail());
+		}
+		User user = userRepository.findByEmail(passwordDto.getEmail());
 		if (user == null) {
 			attributes.addFlashAttribute("fail", "Invalid Email");
 			return "redirect:/forgot-password";
@@ -168,6 +175,66 @@ public class UserServiceImpl implements UserService {
 			}
 
 		}
+	}
+	
+	@Override
+	public String manageUsers(HttpSession session, RedirectAttributes attributes, ModelMap map) {
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("ADMIN")) {
+			attributes.addFlashAttribute("fail", "Invalid Session");
+			return "redirect:/login";
+		} else {
+			List<User> users = userRepository.findByRole("USER");
+			if (users.isEmpty()) {
+				attributes.addFlashAttribute("fail", "No Users Registered Yet");
+				return "redirect:/";
+			} else {
+				map.put("users", users);
+				return "manage-users.html";
+			}
+		}
+	}
+
+	@Override
+	public String blockUser(Long id, HttpSession session, RedirectAttributes attributes) {
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("ADMIN")) {
+			attributes.addFlashAttribute("fail", "Invalid Session");
+			return "redirect:/login";
+		} else {
+			User user1 = userRepository.findById(id).orElse(null);
+			if (user1 == null) {
+				attributes.addFlashAttribute("fail", "Invalid Session");
+				return "redirect:/login";
+			}
+			user1.setBlocked(true);
+			userRepository.save(user1);
+			attributes.addFlashAttribute("pass", "Blocked Success");
+			return "redirect:/manage-users";
+		}
+	}
+	
+	@Override
+	public String unBlockUser(Long id, HttpSession session, RedirectAttributes attributes) {
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("ADMIN")) {
+			attributes.addFlashAttribute("fail", "Invalid Session");
+			return "redirect:/login";
+		} else {
+			User user1 = userRepository.findById(id).orElse(null);
+			if (user1 == null) {
+				attributes.addFlashAttribute("fail", "Invalid Session");
+				return "redirect:/login";
+			}
+			user1.setBlocked(false);
+			userRepository.save(user1);
+			attributes.addFlashAttribute("pass", "Un-Blocked Success");
+			return "redirect:/manage-users";
+		}
+	}
+
+	private User getUserFromSession(HttpSession session) {
+		return (User) session.getAttribute("user");
 	}
 	
 	
