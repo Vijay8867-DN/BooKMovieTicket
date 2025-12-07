@@ -5,10 +5,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vijay.book_movie_ticket1.dto.LoginDto;
 import com.vijay.book_movie_ticket1.dto.PasswordDto;
+import com.vijay.book_movie_ticket1.dto.TheaterDto;
 import com.vijay.book_movie_ticket1.dto.UserDto;
+
+import java.io.IOException;
+
 import org.springframework.ui.ModelMap;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 public interface UserService {
 
@@ -32,4 +37,11 @@ public interface UserService {
 	String blockUser(Long id,HttpSession session, RedirectAttributes attributes);
 
 	String unBlockUser(Long id, HttpSession session, RedirectAttributes attributes);
+	
+	String manageTheater(ModelMap map, RedirectAttributes attributes, HttpSession session);
+
+	String loadAddTheater(HttpSession session,RedirectAttributes attributes, TheaterDto theaterDto);
+
+	String addTheater(HttpSession session, RedirectAttributes attributes, @Valid TheaterDto theaterDto,
+			BindingResult result) throws IOException;
 }
