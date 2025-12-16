@@ -2,9 +2,11 @@ package com.vijay.book_movie_ticket1.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ScreenDto {
 	@NotBlank
 	private String name;
