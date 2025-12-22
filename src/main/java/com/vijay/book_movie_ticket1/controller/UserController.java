@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vijay.book_movie_ticket1.dto.LoginDto;
+import com.vijay.book_movie_ticket1.dto.MovieDto;
 import com.vijay.book_movie_ticket1.dto.PasswordDto;
 import com.vijay.book_movie_ticket1.dto.ScreenDto;
 import com.vijay.book_movie_ticket1.dto.TheaterDto;
