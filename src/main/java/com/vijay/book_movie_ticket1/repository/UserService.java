@@ -7,6 +7,7 @@ import com.vijay.book_movie_ticket1.dto.LoginDto;
 import com.vijay.book_movie_ticket1.dto.MovieDto;
 import com.vijay.book_movie_ticket1.dto.PasswordDto;
 import com.vijay.book_movie_ticket1.dto.ScreenDto;
+import com.vijay.book_movie_ticket1.dto.SeatLayoutForm;
 import com.vijay.book_movie_ticket1.dto.TheaterDto;
 import com.vijay.book_movie_ticket1.dto.UserDto;
 
@@ -74,4 +75,6 @@ public interface UserService {
 	String loadAddMovie(MovieDto movieDto, RedirectAttributes attributes, HttpSession session);
 
 	String addMovie(MovieDto movieDto, BindingResult result, RedirectAttributes attributes, HttpSession session);
+	
+	String saveSeats(Long id, SeatLayoutForm seatLayoutForm, HttpSession session, RedirectAttributes attributes);
 }
