@@ -303,20 +303,12 @@ public class UserServiceImpl implements UserService {
 			return "add-theater.html";
 		}
 
-		String baseUploadDir = System.getProperty("user.dir") + "/uploads/theaters/";
-		File directory = new File(baseUploadDir);
-		if (!directory.exists())
-			directory.mkdirs();
-
-		String filename = theaterDto.getName() + image.getOriginalFilename();
-		File destination = new File(directory, filename);
-		image.transferTo(destination);
 
 		Theater theater = new Theater();
 		theater.setName(theaterDto.getName());
 		theater.setAddress(theaterDto.getAddress());
 		theater.setLocationLink(theaterDto.getLocationLink());
-		theater.setImageLocation("/uploads/theaters/" + filename);
+		theater.setImageLocation(cloudinaryHelper.getTheaterImageLink(image));
 
 		theaterRepository.save(theater);
 
@@ -421,7 +413,7 @@ public class UserServiceImpl implements UserService {
 			attributes.addFlashAttribute("fail", "Invalid Session");
 			return "redirect:/login";
 		} else {
-			Theater theater = theaterRepository.findById(id).get();
+			theaterRepository.findById(id).get();
 			screenDto.setTheaterId(id);
 			map.put("screenDto", screenDto);
 			return "add-screen.html";
@@ -531,7 +523,7 @@ public class UserServiceImpl implements UserService {
 			attributes.addFlashAttribute("fail", "Invalid Session");
 			return "redirect:/login";
 		} else {
-			Screen screen = screenRepository.findById(id).orElseThrow();
+			screenRepository.findById(id).orElseThrow();
 			map.put("id", id);
 			return "add-seats.html";
 		}
