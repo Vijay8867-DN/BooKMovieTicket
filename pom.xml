@@ -8,11 +8,11 @@
 		<version>4.0.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.vijay</groupId>
-	<artifactId>book-movie-ticket1</artifactId>
+	<groupId>com.jsp</groupId>
+	<artifactId>book-my-ticket</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>book-movie-ticket1</name>
-	<description>Demo project for Spring Boot</description>
+	<name>book-my-ticket</name>
+	<description>Movie Ticket App using Spring boot and thymeleaf</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -30,7 +30,6 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-	
 	<dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
@@ -43,8 +42,7 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
     </dependency>
-	
-	<dependency>
+    <dependency>
         <groupId>com.cloudinary</groupId>
         <artifactId>cloudinary-http5</artifactId>
         <version>2.0.0</version>
@@ -55,8 +53,6 @@
         <artifactId>cloudinary-taglib</artifactId>
         <version>2.0.0</version>
     </dependency>
-	
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -128,6 +124,21 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    <groupId>com.razorpay</groupId>
+    <artifactId>razorpay-java</artifactId>
+    <version>1.4.8</version>
+</dependency>
+<dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>core</artifactId>
+        <version>3.5.3</version>
+    </dependency>
+    <dependency>
+        <groupId>com.google.zxing</groupId>
+        <artifactId>javase</artifactId>
+        <version>3.5.3</version>
+    </dependency>
 	</dependencies>
 
 	<build>

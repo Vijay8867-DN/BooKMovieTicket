@@ -1,28 +1,26 @@
 package com.vijay.book_movie_ticket1.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Screen {
+public class ShowSeat {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String name;
-	private String type;
-
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Theater theater;
+	private Seat seat;
+
+	private boolean booked;
 }
+

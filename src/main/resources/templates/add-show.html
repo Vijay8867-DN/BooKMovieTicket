@@ -2,14 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Theater - BookMyTicket Admin</title>
+<title>Add Show - BookMyTicket Admin</title>
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
+<!-- Bootstrap -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+
+<!-- Google Font -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap"
 	rel="stylesheet">
@@ -22,6 +24,7 @@
 	--text-main: #e5e7eb;
 	--text-muted: #9ca3af;
 	--accent: #e74c3c;
+	--accent-2: #22c55e;
 }
 
 * {
@@ -42,57 +45,53 @@ body {
 /* Container */
 .form-container {
 	width: 100%;
-	max-width: 480px;
+	max-width: 500px;
 }
 
 /* Card */
-.form-box {
+.form-card {
 	background: linear-gradient(180deg, #111827, #0b1220);
-	border-radius: 20px;
+	border-radius: 18px;
 	border: 1px solid var(--border-soft);
 	box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-	padding: 45px;
+	padding: 40px;
 	animation: fadeInUp 0.6s ease;
 }
 
 /* Heading */
-h2 {
+.form-card h1 {
 	text-align: center;
-	margin-bottom: 30px;
 	font-weight: 800;
 	font-size: 1.6rem;
+	margin-bottom: 30px;
 	letter-spacing: 0.4px;
 }
 
-/* Form group */
+/* Form Group */
 .form-group {
 	margin-bottom: 22px;
 }
 
 label {
-	display: block;
-	margin-bottom: 6px;
 	font-weight: 600;
 	font-size: 0.9rem;
+	margin-bottom: 6px;
+	display: block;
 	color: var(--text-main);
 }
 
 /* Inputs */
-.form-control, .form-file {
+.form-control, .form-select {
 	background: #020617;
 	border: 1px solid var(--border-soft);
-	border-radius: 10px;
-	padding: 11px 14px;
-	font-size: 0.9rem;
 	color: var(--text-main);
+	border-radius: 10px;
+	padding: 10px 14px;
+	font-size: 0.9rem;
 	transition: all 0.25s ease;
 }
 
-.form-control::placeholder {
-	color: var(--text-muted);
-}
-
-.form-control:focus, .form-file:focus {
+.form-control:focus, .form-select:focus {
 	border-color: var(--accent);
 	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25);
 	outline: none;
@@ -100,19 +99,11 @@ label {
 	color: var(--text-main);
 }
 
-/* File input button */
-.form-file::file-selector-button {
-	background: linear-gradient(135deg, #e74c3c, #ff6b6b);
-	color: white;
-	border: none;
-	padding: 6px 14px;
-	border-radius: 8px;
-	font-weight: 600;
-	cursor: pointer;
-	margin-right: 10px;
+.form-control::placeholder {
+	color: var(--text-muted);
 }
 
-/* Errors */
+/* Error text */
 .error-text {
 	color: #f87171;
 	font-size: 0.8rem;
@@ -121,7 +112,7 @@ label {
 	display: block;
 }
 
-/* Submit button */
+/* Button */
 .btn-submit {
 	width: 100%;
 	background: linear-gradient(135deg, #e74c3c, #ff6b6b);
@@ -140,23 +131,6 @@ label {
 	box-shadow: 0 14px 35px rgba(231, 76, 60, 0.45);
 }
 
-/* Back link */
-.back-link {
-	text-align: center;
-	margin-top: 18px;
-}
-
-.back-link a {
-	color: var(--text-muted);
-	font-weight: 600;
-	text-decoration: none;
-	transition: all 0.25s ease;
-}
-
-.back-link a:hover {
-	color: white;
-}
-
 /* Animations */
 @keyframes fadeInUp {from { opacity:0;
 	transform: translateY(20px);
@@ -169,7 +143,7 @@ to {
 
 }
 @media ( max-width : 480px) {
-	.form-box {
+	.form-card {
 		padding: 30px 25px;
 	}
 }
@@ -179,43 +153,43 @@ to {
 <body>
 
 	<div class="form-container">
-		<div class="form-box">
+		<div class="form-card">
 
-			<h2>🏛️ Add Theater</h2>
+			<h1>🎥 Add Show</h1>
 
-			<form action="/add-theater" method="post"
-				enctype="multipart/form-data" th:object="${theaterDto}">
+			<form action="/add-show" method="post" th:object="${showDto}">
 
-				<div class="form-group">
-					<label>Theater Name</label> <input type="text" th:field="*{name}"
-						class="form-control" placeholder="Enter theater name"> <span
-						class="error-text" th:errors="*{name}"></span>
-				</div>
+				<input type="hidden" th:field="*{screenId}">
 
 				<div class="form-group">
-					<label>Address</label> <input type="text" th:field="*{address}"
-						class="form-control" placeholder="Enter theater address">
-					<span class="error-text" th:errors="*{address}"></span>
+					<label>Show Date</label> <input type="date" class="form-control"
+						th:field="*{showDate}"> <span class="error-text"
+						th:errors="*{showDate}"></span>
 				</div>
 
 				<div class="form-group">
-					<label>Location Link</label> <input type="text"
-						th:field="*{locationLink}" class="form-control"
-						placeholder="Google Maps link"> <span class="error-text"
-						th:errors="*{locationLink}"></span>
+					<label>Show Start Time</label> <input type="time"
+						class="form-control" th:field="*{startTime}"> <span
+						class="error-text" th:errors="*{startTime}"></span>
 				</div>
 
 				<div class="form-group">
-					<label>Theater Image</label> <input type="file" th:field="*{image}"
-						class="form-file" accept="image/*"> <span
-						class="error-text" th:errors="*{image}"></span>
+					<label>Select Movie</label> <select class="form-select"
+						th:field="*{movieId}">
+						<option value="">-- Select Movie --</option>
+						<option th:each="movie : ${movies}" th:value="${movie.id}"
+							th:text="${movie.name}"></option>
+					</select> <span class="error-text" th:errors="*{movieId}"></span>
 				</div>
 
-				<button type="submit" class="btn-submit">Add Theater</button>
-
-				<div class="back-link">
-					<a href="/manage-theaters">← Back to Theaters</a>
+				<div class="form-group">
+					<label>Ticket Price (₹)</label> <input type="number"
+						class="form-control" th:field="*{ticketPrice}"
+						placeholder="e.g. 250"> <span class="error-text"
+						th:errors="*{ticketPrice}"></span>
 				</div>
+
+				<button type="submit" class="btn-submit">Add Show</button>
 
 			</form>
 

@@ -1,6 +1,8 @@
 package com.vijay.book_movie_ticket1.entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,30 +14,40 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Movie {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(nullable = false)
 	private String name;
+
 	@Column(nullable = false)
 	private String languages;
+
 	@Column(nullable = false)
 	private String genre;
+
 	@Column(nullable = false)
-	private String duration;
+	private LocalTime duration;
+
 	@Column(nullable = false)
 	private String imageLink;
+
 	@Column(nullable = false)
 	private String trailerLink;
+
 	@Column(nullable = false, length = 500)
 	private String description;
+
 	@Column(nullable = false)
 	private LocalDate releaseDate;
+
 	@Column(nullable = false)
 	private String cast;
 }

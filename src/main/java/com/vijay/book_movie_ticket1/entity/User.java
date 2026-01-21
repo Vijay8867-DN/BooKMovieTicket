@@ -1,5 +1,6 @@
 package com.vijay.book_movie_ticket1.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,22 +12,28 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(nullable = false)
 	private String name;
+
 	@Column(nullable = false, unique = true)
 	private String email;
+
 	@Column(nullable = false)
 	private Long mobile;
+
 	@Column(nullable = false)
 	private String password;
+
 	@Column(nullable = false)
 	private String role;
+
 	private boolean blocked;
 }
-

@@ -12,33 +12,48 @@ import com.cloudinary.utils.ObjectUtils;
 
 @Component
 public class CloudinaryHelper {
-	
-	@Value("${cloudinary.url}")
-	private String url;
 
-	@SuppressWarnings("unchecked")
+	private static final String MOVIE_FOLDER = "BMT-Movies";
+	private static final String THEATER_FOLDER = "BMT-Theater";
+	private static final String QR_FOLDER = "BMT-Theater-QR";
+
+	private static final String FALLBACK_IMAGE = "https://placehold.co/600x400/EEE/31343C";
+
+	private final Cloudinary cloudinary;
+
+	public CloudinaryHelper(@Value("${cloudinary.url}") String cloudinaryUrl) {
+		this.cloudinary = new Cloudinary(cloudinaryUrl);
+	}
+
 	public String generateImageLink(MultipartFile file) {
-		Cloudinary cloudinary = new Cloudinary(url);
+		return upload(file, MOVIE_FOLDER);
+	}
 
-		Map<String, Object> params = ObjectUtils.asMap("folder", "BMT-Movies", "use_filename", true);
+	public String getTheaterImageLink(MultipartFile file) {
+		return upload(file, THEATER_FOLDER);
+	}
+
+	public String saveTicketQr(byte[] qr) {
+		return upload(qr, QR_FOLDER);
+	}
+
+	/* ---------- Private helpers ---------- */
+
+	private String upload(MultipartFile file, String folder) {
 		try {
-			return (String) cloudinary.uploader().upload(file.getBytes(), params).get("url");
+			return upload(file.getBytes(), folder);
 		} catch (IOException e) {
-			e.printStackTrace();
-			return "https://placehold.co/600x400/EEE/31343C";
+			return FALLBACK_IMAGE;
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public String getTheaterImageLink(MultipartFile file) {
-		Cloudinary cloudinary = new Cloudinary(url);
-
-		Map<String, Object> params = ObjectUtils.asMap("folder", "BMT-Theater", "use_filename", true);
+	private String upload(byte[] data, String folder) {
 		try {
-			return (String) cloudinary.uploader().upload(file.getBytes(), params).get("url");
+			Map<String, Object> params = ObjectUtils.asMap("folder", folder, "use_filename", true);
+			return (String) cloudinary.uploader().upload(data, params).get("url");
 		} catch (IOException e) {
-			e.printStackTrace();
-			return "https://placehold.co/600x400/EEE/31343C";
+			return FALLBACK_IMAGE;
 		}
 	}
 }
